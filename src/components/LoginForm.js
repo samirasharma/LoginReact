@@ -1,17 +1,35 @@
 import React, { Component } from 'react';
-import { View, TextInput } from 'react-native';
-import { Button, Card, CardSection} from './common';
+import firebase from 'firebase';
+import { Button, Card, CardSection, Input} from './common';
 
 class Loginform extends Component {
+  state = { email: '', password: ''};
+  onButtonPress(){
+    const { email, password }= this.state;
+    firebase.auth().signInWithEmailAndPassword(email, password);
+  }
   render(){
     return(
       <Card>
         <CardSection >
-          <TextInput style = {{ height: 20, width: 100 }}/>
+          <Input
+              label ="Email"
+              placeholder="user@gmail.com"
+              value={this.state.email}
+              onChangeText={email => this.setState({email})} // or use only text instead of key:value
+            />
         </CardSection>
-        <CardSection />
         <CardSection>
-          <Button>
+          <Input
+              secureTextEntry
+              label= "Password"
+              placeholder="password"
+              value= {this.state.password}
+              onChangeText={password => this.setState({password})}
+          />
+        </CardSection>
+        <CardSection>
+          <Button onPress={this.onButtonPress.bind(this)}>
             Log In
           </Button>
         </CardSection>
