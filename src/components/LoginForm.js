@@ -5,9 +5,12 @@ import { Button, Card, CardSection, Input, Spinner} from './common';
 
 class Loginform extends Component {
   state = { email: '', password: '', error: '', loading: false};
+  
   onButtonPress(){
     const { email, password }= this.state;
+
     this.setState({ error: '', loading: true});
+
     firebase.auth().signInWithEmailAndPassword(email, password)
       .then(this.onLoginSuccess.bind(this))
       .catch(() => {
@@ -20,7 +23,7 @@ class Loginform extends Component {
     this.setState({
       error: 'Authentication Failed',
       loading: false
-    })
+    });
   }
   onLoginSuccess(){
     this.setState({
@@ -28,7 +31,7 @@ class Loginform extends Component {
       password: '',
       loading: false,
       error: ''
-    })
+    });
   }
   renderButton(){
     if(this.state.loading){
@@ -38,7 +41,7 @@ class Loginform extends Component {
       <Button onPress={this.onButtonPress.bind(this)}>
         Log In
       </Button>
-    )
+    );
   }
   render(){
     return(
@@ -51,6 +54,7 @@ class Loginform extends Component {
               onChangeText={email => this.setState({email})} // or use only text instead of key:value
             />
         </CardSection>
+
         <CardSection>
           <Input
               secureTextEntry
@@ -60,9 +64,11 @@ class Loginform extends Component {
               onChangeText={password => this.setState({password})}
           />
         </CardSection>
+
         <Text style = {styles.errorTextStyle} >
             {this.state.error}
         </Text>
+
         <CardSection >
           { this.renderButton() }
         </CardSection>
